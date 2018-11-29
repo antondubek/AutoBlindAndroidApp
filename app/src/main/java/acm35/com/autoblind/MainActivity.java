@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SeekBar seekBar;
     private TextView textView;
+    private Button openBtn, closeBtn, refresh;
 
     private Client client;
 
@@ -31,37 +33,33 @@ public class MainActivity extends AppCompatActivity {
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
-        Button openBtn = (Button) findViewById(R.id.openBtn);
-        Button closeBtn = (Button) findViewById(R.id.closeBtn);
+        openBtn = (Button) findViewById(R.id.openBtn);
+        closeBtn = (Button) findViewById(R.id.closeBtn);
+        refresh = (Button) findViewById(R.id.refreshBtn);
 
-        client = new Client("retrieve");
-        Thread clientThread = new Thread(client);
-        clientThread.start();
-        try{
-            clientThread.join();
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
+        getPosition();
         seekBar();
 
         openBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendToPi("open");
+                sendToPi("PUT /open");
             }
         });
 
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendToPi("close");
+                sendToPi("PUT /close");
             }
         });
 
-
-
-
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateSeekBar();
+            }
+        });
 
     }
 
@@ -103,6 +101,18 @@ public class MainActivity extends AppCompatActivity {
         new Thread(client).start();
     }
 
+    private boolean getPosition(){
+        client = new Client("GET /Position");
+        Thread clientThread = new Thread(client);
+        clientThread.start();
+        try{
+            clientThread.join();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return true;
+    }
+
     private void seekBar(){
         seekBar = (SeekBar) findViewById(R.id.progressBar);
         textView = (TextView) findViewById(R.id.Text1);
@@ -110,8 +120,6 @@ public class MainActivity extends AppCompatActivity {
         seekBar.setProgress(client.getCurrentPosition());
 
         textView.setText("Covered: " + seekBar.getProgress() + " / " + seekBar.getMax());
-
-
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -134,23 +142,28 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText("Covered: " + progressValue + " / " + seekBar.getMax());
                 switch (progressValue) {
                     case 0:
-                        sendToPi("close");
+                        sendToPi("PUT /close");
                         break;
                     case 1:
-                        sendToPi("quarter");
+                        sendToPi("PUT /quarter");
                         break;
                     case 2:
-                        sendToPi("half");
+                        sendToPi("PUT /half");
                         break;
                     case 3:
-                        sendToPi("3quarter");
+                        sendToPi("PUT /3quarter");
                         break;
                     case 4:
-                        sendToPi("open");
+                        sendToPi("PUT /open");
                         break;
                 }
             }
         });
+    }
+
+    private void updateSeekBar(){
+        getPosition();
+        seekBar.setProgress(client.getCurrentPosition());
     }
 }
 

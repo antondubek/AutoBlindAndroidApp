@@ -12,12 +12,25 @@ public class Client implements Runnable{
     private int port = 12345;
 
     private String command;
+    private String openTime, closeTime;
+    private String toSend;
+    private Boolean enabled;
 
-    private String currentPosition = "1";
+    private String[] responseData;
+
+    private String currentPosition;
 
 
     public Client(String command){
         this.command = command;
+        //this.currentPosition = "3";
+    }
+
+    public Client(String command, boolean enabled, String openTime, String closeTime){
+        this.command = command;
+        this.enabled = enabled;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
     }
 
 
@@ -32,19 +45,30 @@ public class Client implements Runnable{
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
+            if(command.equals("PUT /time")){
+                toSend = "PUT /time " + enabled + " " + openTime + " " + closeTime;
+            } else {
+                toSend = command;
+            }
             //Send the command to the server
-            String toSend = "PUT /" + command;
             pw.println(toSend);
             pw.flush();
 
             //Get the response and save it
-            currentPosition = br.readLine();
+            String serverResponse = br.readLine();
+
+            if (command.equals("GET /Time")){
+                responseData = serverResponse.split(",");
+            } else {
+                currentPosition = serverResponse;
+            }
             System.out.println("Current position = " + currentPosition);
 
             //Close everything
             br.close();
             pw.close();
             socket.close();
+            return;
         } catch (Exception e){ // exit cleanly for any Exception (including IOException, DisconnectedException)
             System.out.println("Ooops on connection: " + e.getMessage());
         }
@@ -52,5 +76,9 @@ public class Client implements Runnable{
 
     public int getCurrentPosition(){
         return Integer.parseInt(currentPosition);
+    }
+
+    public String[] getCurrentTime(){
+        return responseData;
     }
 }
