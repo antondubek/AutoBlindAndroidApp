@@ -16,12 +16,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="8dp"
         android:text="Closed"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/seekBarRotator"
-        app:layout_constraintHorizontal_bias="0.527"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -30,12 +30,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="8dp"
         android:text="1/2"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/seekBarRotator"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -44,12 +43,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="8dp"
         android:text="3/4"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/seekBarRotator"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -57,8 +56,8 @@
         android:id="@+id/openBtn"
         android:layout_width="145dp"
         android:layout_height="84dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginBottom="96dp"
         android:text="Open"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,22 +66,25 @@
     <Button
         android:id="@+id/closeBtn"
         android:layout_width="145dp"
-        android:layout_height="85dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="60dp"
+        android:layout_height="84dp"
+        android:layout_marginEnd="92dp"
+        android:layout_marginBottom="96dp"
         android:text="Close"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.894"
+        app:layout_constraintStart_toStartOf="@+id/openBtn" />
 
     <acm35.com.autoblind.SeekBarRotator
         android:id="@+id/seekBarRotator"
-        android:layout_width="278dp"
-        android:layout_height="464dp"
+        android:layout_width="279dp"
+        android:layout_height="431dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="132dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_bar">
 
@@ -100,22 +102,11 @@
 
 
     <TextView
-        android:id="@+id/Text1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
-
-    <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:text="Open"
         android:textSize="24sp"
@@ -129,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="8dp"
         android:text="1/4"
         android:textSize="24sp"

@@ -8,7 +8,9 @@ import java.net.Socket;
 
 public class Client implements Runnable{
 
-    private String host = "antondubek2.hopto.org";
+    //private String host = "antondubek2.hopto.org";
+    //private String host = "192.168.1.78";
+    private String host = "192.168.0.32";
     private int port = 12345;
 
     private String command;

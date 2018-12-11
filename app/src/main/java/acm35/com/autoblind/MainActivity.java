@@ -21,7 +21,6 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private SeekBar seekBar;
-    private TextView textView;
     private Button openBtn, closeBtn, refresh;
 
     private Client client;
@@ -115,11 +114,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void seekBar(){
         seekBar = (SeekBar) findViewById(R.id.progressBar);
-        textView = (TextView) findViewById(R.id.Text1);
 
         seekBar.setProgress(client.getCurrentPosition());
-
-        textView.setText("Covered: " + seekBar.getProgress() + " / " + seekBar.getMax());
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -128,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressValue = progress;
-                textView.setText("Covered: " + progress + " / " + seekBar.getMax());
 
             }
 
@@ -139,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                textView.setText("Covered: " + progressValue + " / " + seekBar.getMax());
                 switch (progressValue) {
                     case 0:
                         sendToPi("PUT /close");
