@@ -71,15 +71,6 @@
         app:layout_constraintStart_toEndOf="@+id/setCloseBtn" />
 
     <Button
-        android:id="@+id/saveTimeBtn"
-        android:layout_width="48dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="24dp"
-        android:background="@drawable/ic_save_black_24dp"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toTopOf="@+id/textView6" />
-
-    <Button
         android:id="@+id/refreshSettingsBtn"
         android:layout_width="57dp"
         android:layout_height="45dp"

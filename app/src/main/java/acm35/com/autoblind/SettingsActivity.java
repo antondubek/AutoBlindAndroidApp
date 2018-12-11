@@ -28,7 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Client client;
 
-    private Button setOpen, setClose, saveTimeBtn, refresh;
+    private Button setOpen, setClose, refresh;
     private TextView openTimeView, closeTimeView;
     private Switch enabledSwitch;
 
@@ -63,6 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new TimePickerDialog(SettingsActivity.this, timePickerListenerOpen, hourOpen, minuteOpen, false).show();
                 updateTime(hourOpen, minuteOpen, openTimeView);
+                sendTimes();
             }
         });
 
@@ -72,6 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new TimePickerDialog(SettingsActivity.this, timePickerListenerClose, hourClose, minuteClose, false).show();
                 updateTime(hourClose, minuteClose, closeTimeView);
+                sendTimes();
             }
         });
 
@@ -85,19 +87,8 @@ public class SettingsActivity extends AppCompatActivity {
                 } else {
                     toastMessage("Auto Open Close Disabled");
                 }
+                sendTimes();
 
-            }
-        });
-
-        saveTimeBtn = (Button) findViewById(R.id.saveTimeBtn);
-        saveTimeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String opentime = Integer.toString(hourOpen) + Integer.toString(minuteOpen);
-                String closetime = Integer.toString(hourClose) + Integer.toString(minuteClose);
-                Client client = new Client("time", timeEnabled, opentime, closetime);
-                new Thread(client).start();
-                toastMessage("Time saved successfully");
             }
         });
 
@@ -108,6 +99,14 @@ public class SettingsActivity extends AppCompatActivity {
                 getTimeFromServer();
             }
         });
+    }
+
+    private void sendTimes(){
+        String opentime = Integer.toString(hourOpen) + Integer.toString(minuteOpen);
+        String closetime = Integer.toString(hourClose) + Integer.toString(minuteClose);
+        Client client = new Client("PUT /time", timeEnabled, opentime, closetime);
+        new Thread(client).start();
+        toastMessage("Time saved successfully");
     }
 
     /**
@@ -134,8 +133,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (id == R.id.action_add) {
             Intent mainActivityIntent = new Intent(SettingsActivity.this, MainActivity.class);
-//            mindMapIntent.putExtra("id", itemID);
-//            mindMapIntent.putExtra("name", selectedItem);
             startActivity(mainActivityIntent);
             return true;
         }
@@ -182,14 +179,6 @@ public class SettingsActivity extends AppCompatActivity {
             minuteClose = minutes;
         }
     };
-
-    private static String utilTime(int value) {
-        if (value < 10) {
-            return "0" + String.valueOf(value);
-        } else {
-            return String.valueOf(value);
-        }
-    }
 
 
     private void updateTime(int hours, int mins, TextView view) {
