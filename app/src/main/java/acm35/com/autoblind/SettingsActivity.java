@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+/**
+ * Class to control and provide functionality for the settings screen
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     static final int TIME_DIALOG_ID = 1111;
@@ -32,13 +35,16 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView openTimeView, closeTimeView;
     private Switch enabledSwitch;
 
+    /**
+     * Overridden oncreate method initialises the screen
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-
 
         final Calendar calendar = Calendar.getInstance();
         hourOpen = calendar.get(Calendar.HOUR_OF_DAY);
@@ -56,6 +62,9 @@ public class SettingsActivity extends AppCompatActivity {
         updateTime(hourClose, minuteClose, closeTimeView);
     }
 
+    /**
+     * Sets up all of the buttons on the screen with their respective listeners and actions
+     */
     private void setupButtons(){
         setOpen = (Button) findViewById(R.id.setOpenBtn);
         setOpen.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +110,9 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sends the time and whether auto on/off is enabled or disabled to the socket server
+     */
     private void sendTimes(){
         String opentime = Integer.toString(hourOpen) + Integer.toString(minuteOpen);
         String closetime = Integer.toString(hourClose) + Integer.toString(minuteClose);
@@ -140,6 +152,9 @@ public class SettingsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Retrieves the current time settings from the socket server
+     */
     private void getTimeFromServer(){
         String[] currentTime = client.getCurrentTime();
         timeEnabled = Boolean.parseBoolean(currentTime[0]);
@@ -153,6 +168,9 @@ public class SettingsActivity extends AppCompatActivity {
         updateTime(hourClose, minuteClose, closeTimeView);
     }
 
+    /**
+     * Gets the current time data from the socket server
+     */
     private void refreshTime(){
         client = new Client("GET /Time");
         Thread clientThread = new Thread(client);
@@ -164,6 +182,10 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Creates a timepicker dialog box so that the user can select a time
+     * This controls the open time
+     */
     private TimePickerDialog.OnTimeSetListener timePickerListenerOpen = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minutes) {
@@ -172,6 +194,10 @@ public class SettingsActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Creates a timepicker dialog box so that the user can select a time
+     * this controls the close time
+     */
     private TimePickerDialog.OnTimeSetListener timePickerListenerClose = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minutes) {
@@ -180,7 +206,12 @@ public class SettingsActivity extends AppCompatActivity {
         }
     };
 
-
+    /**
+     * Updates the time displayed in the text view on the screens
+     * @param hours hour to display
+     * @param mins min to display
+     * @param view which textview to alter
+     */
     private void updateTime(int hours, int mins, TextView view) {
         String timeSet = "";
         if (hours > 12) {

@@ -18,6 +18,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Main activity class which shows and creates the functionality of the main page
+ */
 public class MainActivity extends AppCompatActivity {
 
     private SeekBar seekBar;
@@ -25,17 +28,25 @@ public class MainActivity extends AppCompatActivity {
 
     private Client client;
 
+    /**
+     * Overriden oncreate method which sets click listeners for the buttons
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Add the view and the top bar
         setContentView(R.layout.activity_main);
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
+        //Initialise the buttons
         openBtn = (Button) findViewById(R.id.openBtn);
         closeBtn = (Button) findViewById(R.id.closeBtn);
         refresh = (Button) findViewById(R.id.refreshBtn);
 
+        // Get the current position of the blind
         getPosition();
         seekBar();
 
@@ -86,8 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.action_add) {
             Intent settingsActivityIntent = new Intent(MainActivity.this, SettingsActivity.class);
-//            mindMapIntent.putExtra("id", itemID);
-//            mindMapIntent.putExtra("name", selectedItem);
             startActivity(settingsActivityIntent);
             return true;
         }
@@ -95,11 +104,19 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Creates a client and sends a passed command to the RPi socket server
+     * @param command command to be sent to the socket server
+     */
     public void sendToPi(String command){
         client = new Client(command);
         new Thread(client).start();
     }
 
+    /**
+     * Create a client and asks for the current position of the blind
+     * @return true
+     */
     private boolean getPosition(){
         client = new Client("GET /Position");
         Thread clientThread = new Thread(client);
@@ -112,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Creates a seekbar which has values 0-4 which user can interact with
+     */
     private void seekBar(){
         seekBar = (SeekBar) findViewById(R.id.progressBar);
 
@@ -124,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressValue = progress;
-
             }
 
             @Override
@@ -155,6 +174,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Simple method to update the seekbar
+     */
     private void updateSeekBar(){
         getPosition();
         seekBar.setProgress(client.getCurrentPosition());

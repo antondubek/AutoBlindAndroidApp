@@ -6,6 +6,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+/**
+ * Client class which interacts with the socket server on the Raspberry Pi
+ */
 public class Client implements Runnable{
 
     //private String host = "antondubek2.hopto.org";
@@ -23,11 +26,22 @@ public class Client implements Runnable{
     private String currentPosition;
 
 
+    /**
+     * Constructor
+     * @param command command to be sent
+     */
     public Client(String command){
         this.command = command;
         //this.currentPosition = "3";
     }
 
+    /**
+     * Overriden constructor used to send time to the server
+     * @param command command to be sent
+     * @param enabled whether auto on/off is enabled or disabled
+     * @param openTime time to open
+     * @param closeTime time to close
+     */
     public Client(String command, boolean enabled, String openTime, String closeTime){
         this.command = command;
         this.enabled = enabled;
@@ -36,6 +50,10 @@ public class Client implements Runnable{
     }
 
 
+    /**
+     * Main run method of the thread which creates a connection to the server and sends the commands.
+     * Also parses the returned message.
+     */
     @Override
     public void run() {
         try {
@@ -76,10 +94,18 @@ public class Client implements Runnable{
         }
     }
 
+    /**
+     * Get the current position variable
+     * @return currentPosition
+     */
     public int getCurrentPosition(){
         return Integer.parseInt(currentPosition);
     }
 
+    /**
+     * GHet the current time variable
+     * @return array of the times
+     */
     public String[] getCurrentTime(){
         return responseData;
     }
