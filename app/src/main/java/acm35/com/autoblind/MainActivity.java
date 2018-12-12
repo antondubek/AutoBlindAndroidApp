@@ -42,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
         openBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendToPi("PUT /open");
+                sendToPi("POST /open");
             }
         });
 
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendToPi("PUT /close");
+                sendToPi("POST /close");
             }
         });
 
@@ -136,19 +136,19 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 switch (progressValue) {
                     case 0:
-                        sendToPi("PUT /close");
+                        sendToPi("POST /close");
                         break;
                     case 1:
-                        sendToPi("PUT /quarter");
+                        sendToPi("POST /quarter");
                         break;
                     case 2:
-                        sendToPi("PUT /half");
+                        sendToPi("POST /half");
                         break;
                     case 3:
-                        sendToPi("PUT /3quarter");
+                        sendToPi("POST /3quarter");
                         break;
                     case 4:
-                        sendToPi("PUT /open");
+                        sendToPi("POST /open");
                         break;
                 }
             }

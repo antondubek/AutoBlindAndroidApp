@@ -104,7 +104,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void sendTimes(){
         String opentime = Integer.toString(hourOpen) + Integer.toString(minuteOpen);
         String closetime = Integer.toString(hourClose) + Integer.toString(minuteClose);
-        Client client = new Client("PUT /time", timeEnabled, opentime, closetime);
+        Client client = new Client("POST /time", timeEnabled, opentime, closetime);
         new Thread(client).start();
         toastMessage("Time saved successfully");
     }

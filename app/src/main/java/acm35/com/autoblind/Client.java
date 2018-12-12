@@ -47,8 +47,8 @@ public class Client implements Runnable{
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            if(command.equals("PUT /time")){
-                toSend = "PUT /time " + enabled + " " + openTime + " " + closeTime;
+            if(command.equals("POST /time")){
+                toSend = "POST /time " + enabled + " " + openTime + " " + closeTime;
             } else {
                 toSend = command;
             }
